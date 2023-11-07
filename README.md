@@ -1,4 +1,3 @@
 # cookie-stand
 
-
-![Lighthouse Score!](images/lab6_lighthousescore.png)
+[LighthouseScore!](images/lab06.png)
