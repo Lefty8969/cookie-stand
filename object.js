@@ -169,7 +169,6 @@ tokyoListEl.appendChild(renderTokyoTotal);
 
 
 
-
 const dubai = {
   name: 'Dubai',
   minHourlyCustomers: 11,
