@@ -47,3 +47,18 @@
   padding-top: 15px;
   padding-bottom: 15px;
 }
+
+
+
+
+table {
+
+  border: 1px solid;
+}
+
+table,th,td {
+
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
