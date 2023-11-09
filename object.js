@@ -9,8 +9,9 @@ function Town(name, minHourlyCustomers, maxHourlyCustomers, averageSale) {
   this.cookieGenerator = [];
   this.totalSold = 0;
 }
-
-
+const state = {
+  allCookieTowns: []
+};
 Town.prototype.getRandomCustomers = function () {
   return Math.floor(
     Math.random() * (this.maxHourlyCustomers - this.minHourlyCustomers + 1) +
@@ -23,42 +24,98 @@ Town.prototype.hourlyData = function () {
   for (let hour = 6; hour <= 19; hour++) {
     this.randomCustomers.push(this.getRandomCustomers());
     this.cookieGenerator.push(
-      Math.round(this.randomCustomers[hour - 6] * this.averageSale)  // Fixed here
+      Math.round(this.randomCustomers[hour - 6] * this.averageSale)
     );
     this.totalSold += this.cookieGenerator[hour - 6];
   }
 };
 
-Town.prototype.render = function(){
-  let body = document.getElementById('Town');
-  let frontStore = document.createElement('tr');
+Town.prototype.render = function () {
+  let body = document.getElementById("Town");
+  let frontStore = document.createElement("tr");
   body.appendChild(frontStore);
 
-  let nameBox = document.createElement('td');
+  // Town.prototype.renderFooter = function () {
+  //   let totalFooter = document.getElementById("totalFooter");
+  //   totalFooter.textContent += " " + this.totalSold;
+  // };
+
+
+
+
+
+
+
+  let nameBox = document.createElement("td");
   nameBox.textContent = this.name;
   frontStore.appendChild(nameBox);
 
-  for (let i = 0; i < this.cookieGenerator.length; i++) {  // Fixed here CHatG
-    let hrCell = document.createElement('td');
-    hrCell.textContent = this.cookieGenerator[i];  // Fixed here chatG
+  for (let i = 0; i < this.cookieGenerator.length; i++) {
+    let hrCell = document.createElement("td");
+    hrCell.textContent = this.cookieGenerator[i];
     frontStore.appendChild(hrCell);
   }
 
-  let totalBox = document.createElement('td');
+  let totalBox = document.createElement("td");
   totalBox.textContent = this.totalSold;
   frontStore.appendChild(totalBox);
 };
 
+Town.prototype.renderFooter = function () {
+  let footer = document.getElementById("footer"); // Changed to 'footer'
+  let footerRow = document.createElement("tr");
 
-// (Your Town.prototype methods) chatGpt
+  let totalLabel = document.createElement("td");
+  totalLabel.textContent = "Total";
+  footerRow.appendChild(totalLabel);
 
+  let totalValue = document.createElement("td");
+  totalValue.textContent = this.totalSold;
+  footerRow.appendChild(totalValue);
+
+  footer.appendChild(footerRow);
+};
+
+ function renderFooter() {
+  let footer = document.getElementById("footer");
+  // let totalLabel = document.getElementById("totalLabel");
+  // let dailyTotal = document.getElementById("dailyTotal");
+  let totalLabel = document.createElement('th');
+  totalLabel.textContent = 'totals';
+  footer.appendChild(totalLabel);
+
+  footer.colSpan = 2; // Adjust colspan for label
+
+  for (let hour = 0; hour <= 13; hour++) {
+    // let hourlyTotal = document.getElementById(`hourlyTotal${hour}`);
+    let hourlyTotal = document.createElement("th");
+    footer.appendChild(hourlyTotal);
+
+    let total = 0;
+    console.log(state.allCookieTowns);
+    for (let i = 0; i <state.allCookieTowns.length; i++) {
+      console.log(state.allCookieTowns[i]);
+      total += state.allCookieTowns[i].cookieGenerator[hour];
+      // total += this.cookieGenerator[i].reduce((acc, curr) => acc + curr, 0);
+    }
+
+    hourlyTotal.textContent = total;
+  }
+
+  // Calculate and set the daily total
+  // let total = 0;
+  // for (let i = 0; i < this.cookieGenerator.length; i++) {
+  //   total += this.cookieGenerator[i].reduce((acc, curr) => acc + curr, 0);
+  // }
+  // dailyTotal.textContent = total;
+};
 
 const seattle = new Town("seattle", 23, 65, 6.3);
 const tokyo = new Town("tokyo", 3, 24, 1.2);
 const dubai = new Town("dubai", 11, 38, 3.7);
 const paris = new Town("paris", 20, 38, 2.3);
 const lima = new Town("lima", 2, 16, 4.6);
-
+state.allCookieTowns.push(seattle, dubai,tokyo, paris, lima);
 seattle.hourlyData();
 tokyo.hourlyData();
 dubai.hourlyData();
@@ -71,16 +128,7 @@ dubai.render();
 paris.render();
 lima.render();
 
-
-
-
-
-
-
-
-
-
-
+renderFooter();
 
 // const seattle = {
 //   name: "Seattle",
@@ -101,10 +149,6 @@ lima.render();
 
 //   seattle.cookies.push(noOfCookies);
 // }
-
-
-
-
 
 // DOM Manipulation
 // const seattleListEl = document.getElementById("seattle-list");
@@ -352,7 +396,3 @@ lima.render();
 // let renderLimaTotal = document.createElement("li");
 // renderLimaTotal.textContent = `Total: ${limaTotal} Cookies`;
 // limaListEl.appendChild(renderLimaTotal);
-
-
-
-
